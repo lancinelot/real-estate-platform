@@ -27,18 +27,15 @@ export default function PropertiesPage() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Simulate loading
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 1000)
-
     return () => clearTimeout(timer)
   }, [])
 
   const handleSearch = (filters: SearchFilters) => {
     setIsLoading(true)
 
-    // Simulate search delay
     setTimeout(() => {
       const filtered = allProperties.filter((property) => {
         const matchesSearch =
@@ -93,7 +90,6 @@ export default function PropertiesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Header */}
       <header className="bg-white/95 backdrop-blur-sm shadow-sm border-b sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -127,7 +123,6 @@ export default function PropertiesPage() {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Page Title */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Nos Propriétés</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -136,7 +131,11 @@ export default function PropertiesPage() {
         </div>
 
         {/* Filters */}
-        <AdvancedSearch onSearch={handleSearch} onReset={handleReset} initialFilters={searchFilters} />
+        <AdvancedSearch
+          onSearch={handleSearch}
+          onReset={handleReset}
+          initialFilters={searchFilters}
+        />
 
         {/* Results Header */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
@@ -189,10 +188,10 @@ export default function PropertiesPage() {
         ) : (
           <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-6"}>
             {isLoading
-              ? // Loading skeletons
-                Array.from({ length: 6 }).map((_, index) => <PropertyCardSkeleton key={index} viewMode={viewMode} />)
-              : // Actual properties
-                filteredProperties.map((property) => (
+              ? Array.from({ length: 6 }).map((_, index) => (
+                  <PropertyCardSkeleton key={index} viewMode={viewMode} />
+                ))
+              : filteredProperties.map((property) => (
                   <PropertyCard key={property.id} property={property} viewMode={viewMode} />
                 ))}
           </div>

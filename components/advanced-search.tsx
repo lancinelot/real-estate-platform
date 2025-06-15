@@ -1,20 +1,26 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { Search, MapPin, Filter, X, Home, Euro } from "lucide-react"
-import type { SearchFilters } from "@/lib/types"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Search, MapPin, Filter, X, Home, Euro } from "lucide-react";
+import type { SearchFilters } from "@/lib/types";
 
 interface AdvancedSearchProps {
-  onSearch: (filters: SearchFilters) => void
-  onReset: () => void
-  initialFilters?: SearchFilters
+  onSearch: (filters: SearchFilters) => void;
+  onReset: () => void;
+  initialFilters?: SearchFilters;
 }
 
 const availableFeatures = [
@@ -29,7 +35,7 @@ const availableFeatures = [
   "Ascenseur",
   "Parking",
   "Vue mer",
-]
+];
 
 const locations = [
   "Cannes",
@@ -42,9 +48,13 @@ const locations = [
   "Juan-les-Pins",
   "Valbonne",
   "Mougins",
-]
+];
 
-export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSearchProps) {
+export function AdvancedSearch({
+  onSearch,
+  onReset,
+  initialFilters,
+}: AdvancedSearchProps) {
   const [filters, setFilters] = useState<SearchFilters>(
     initialFilters || {
       searchTerm: "",
@@ -55,10 +65,10 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
       bedrooms: "all",
       location: "all",
       features: [],
-    },
-  )
+    }
+  );
 
-  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleFeatureToggle = (feature: string) => {
     setFilters((prev) => ({
@@ -66,12 +76,12 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
       features: prev.features.includes(feature)
         ? prev.features.filter((f) => f !== feature)
         : [...prev.features, feature],
-    }))
-  }
+    }));
+  };
 
   const handleSearch = () => {
-    onSearch(filters)
-  }
+    onSearch(filters);
+  };
 
   const handleReset = () => {
     const resetFilters: SearchFilters = {
@@ -83,23 +93,23 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
       bedrooms: "all",
       location: "all",
       features: [],
-    }
-    setFilters(resetFilters)
-    onReset()
-  }
+    };
+    setFilters(resetFilters);
+    onReset();
+  };
 
   const getActiveFiltersCount = () => {
-    let count = 0
-    if (filters.searchTerm) count++
-    if (filters.propertyType !== "all") count++
-    if (filters.listingType !== "all") count++
-    if (filters.minPrice) count++
-    if (filters.maxPrice) count++
-    if (filters.bedrooms !== "all") count++
-    if (filters.location !== "all") count++
-    if (filters.features.length > 0) count++
-    return count
-  }
+    let count = 0;
+    if (filters.searchTerm) count++;
+    if (filters.propertyType !== "all") count++;
+    if (filters.listingType !== "all") count++;
+    if (filters.minPrice) count++;
+    if (filters.maxPrice) count++;
+    if (filters.bedrooms !== "all") count++;
+    if (filters.location !== "all") count++;
+    if (filters.features.length > 0) count++;
+    return count;
+  };
 
   return (
     <Card className="mb-6">
@@ -109,9 +119,14 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
             <Search className="h-5 w-5 mr-2" />
             Recherche avancée
           </CardTitle>
-          <Button variant="outline" size="sm" onClick={() => setShowAdvanced(!showAdvanced)}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+          >
             <Filter className="h-4 w-4 mr-2" />
-            Filtres {getActiveFiltersCount() > 0 && `(${getActiveFiltersCount()})`}
+            Filtres{" "}
+            {getActiveFiltersCount() > 0 && `(${getActiveFiltersCount()})`}
           </Button>
         </div>
       </CardHeader>
@@ -123,12 +138,19 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
             <Input
               placeholder="Rechercher..."
               value={filters.searchTerm}
-              onChange={(e) => setFilters({ ...filters, searchTerm: e.target.value })}
+              onChange={(e) =>
+                setFilters({ ...filters, searchTerm: e.target.value })
+              }
               className="pl-10"
             />
           </div>
 
-          <Select value={filters.listingType} onValueChange={(value) => setFilters({ ...filters, listingType: value })}>
+          <Select
+            value={filters.listingType}
+            onValueChange={(value) =>
+              setFilters({ ...filters, listingType: value })
+            }
+          >
             <SelectTrigger>
               <SelectValue placeholder="Type d'annonce" />
             </SelectTrigger>
@@ -149,7 +171,9 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
 
           <Select
             value={filters.propertyType}
-            onValueChange={(value) => setFilters({ ...filters, propertyType: value })}
+            onValueChange={(value) =>
+              setFilters({ ...filters, propertyType: value })
+            }
           >
             <SelectTrigger>
               <SelectValue placeholder="Type de bien" />
@@ -182,7 +206,9 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
                   type="number"
                   placeholder="Prix min"
                   value={filters.minPrice}
-                  onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
+                  onChange={(e) =>
+                    setFilters({ ...filters, minPrice: e.target.value })
+                  }
                 />
               </div>
               <div>
@@ -191,12 +217,19 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
                   type="number"
                   placeholder="Prix max"
                   value={filters.maxPrice}
-                  onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
+                  onChange={(e) =>
+                    setFilters({ ...filters, maxPrice: e.target.value })
+                  }
                 />
               </div>
               <div>
                 <Label>Chambres minimum</Label>
-                <Select value={filters.bedrooms} onValueChange={(value) => setFilters({ ...filters, bedrooms: value })}>
+                <Select
+                  value={filters.bedrooms}
+                  onValueChange={(value) =>
+                    setFilters({ ...filters, bedrooms: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Chambres" />
                   </SelectTrigger>
@@ -212,7 +245,12 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
               </div>
               <div>
                 <Label>Localisation</Label>
-                <Select value={filters.location} onValueChange={(value) => setFilters({ ...filters, location: value })}>
+                <Select
+                  value={filters.location}
+                  onValueChange={(value) =>
+                    setFilters({ ...filters, location: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Ville" />
                   </SelectTrigger>
@@ -233,7 +271,9 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
 
             {/* Équipements */}
             <div>
-              <Label className="text-base font-medium">Équipements souhaités</Label>
+              <Label className="text-base font-medium">
+                Équipements souhaités
+              </Label>
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mt-3">
                 {availableFeatures.map((feature) => (
                   <div key={feature} className="flex items-center space-x-2">
@@ -256,45 +296,72 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
                 <Label className="text-base font-medium">Filtres actifs</Label>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {filters.searchTerm && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       Recherche: {filters.searchTerm}
                       <X
                         className="h-3 w-3 cursor-pointer"
-                        onClick={() => setFilters({ ...filters, searchTerm: "" })}
+                        onClick={() =>
+                          setFilters({ ...filters, searchTerm: "" })
+                        }
                       />
                     </Badge>
                   )}
                   {filters.listingType !== "all" && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       {filters.listingType === "sale" ? "À vendre" : "À louer"}
                       <X
                         className="h-3 w-3 cursor-pointer"
-                        onClick={() => setFilters({ ...filters, listingType: "all" })}
+                        onClick={() =>
+                          setFilters({ ...filters, listingType: "all" })
+                        }
                       />
                     </Badge>
                   )}
                   {filters.propertyType !== "all" && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       {filters.propertyType}
                       <X
                         className="h-3 w-3 cursor-pointer"
-                        onClick={() => setFilters({ ...filters, propertyType: "all" })}
+                        onClick={() =>
+                          setFilters({ ...filters, propertyType: "all" })
+                        }
                       />
                     </Badge>
                   )}
                   {filters.location !== "all" && (
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       {filters.location}
                       <X
                         className="h-3 w-3 cursor-pointer"
-                        onClick={() => setFilters({ ...filters, location: "all" })}
+                        onClick={() =>
+                          setFilters({ ...filters, location: "all" })
+                        }
                       />
                     </Badge>
                   )}
                   {filters.features.map((feature) => (
-                    <Badge key={feature} variant="secondary" className="flex items-center gap-1">
+                    <Badge
+                      key={feature}
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
                       {feature}
-                      <X className="h-3 w-3 cursor-pointer" onClick={() => handleFeatureToggle(feature)} />
+                      <X
+                        className="h-3 w-3 cursor-pointer"
+                        onClick={() => handleFeatureToggle(feature)}
+                      />
                     </Badge>
                   ))}
                 </div>
@@ -306,11 +373,13 @@ export function AdvancedSearch({ onSearch, onReset, initialFilters }: AdvancedSe
               <Button variant="outline" onClick={handleReset}>
                 Réinitialiser tous les filtres
               </Button>
-              <Button onClick={handleSearch}>Appliquer les filtres ({getActiveFiltersCount()})</Button>
+              <Button onClick={handleSearch}>
+                Appliquer les filtres ({getActiveFiltersCount()})
+              </Button>
             </div>
           </div>
         )}
       </CardContent>
     </Card>
-  )
+  );
 }
